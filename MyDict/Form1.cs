@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyDict
+namespace SimpleDict
 {
     public partial class frmMain : Form
     {

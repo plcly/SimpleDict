@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace MyDict
+namespace SimpleDict
 {
     public class XmlHelper
     {

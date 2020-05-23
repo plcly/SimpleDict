@@ -1,4 +1,4 @@
-﻿namespace MyDict
+﻿namespace SimpleDict
 {
     partial class frmMain
     {

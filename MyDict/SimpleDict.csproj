@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5BD2E631-23E3-4201-A3DD-B60EBB3E5681}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MyDict</RootNamespace>
-    <AssemblyName>MyDict</AssemblyName>
+    <RootNamespace>SimpleDict</RootNamespace>
+    <AssemblyName>SimpleDict</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -73,6 +73,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

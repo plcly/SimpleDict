@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDict
+namespace SimpleDict
 {
     public class XmlPhraseDb : IPhraseDb
     {
