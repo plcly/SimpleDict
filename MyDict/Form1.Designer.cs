@@ -1,6 +1,6 @@
 ﻿namespace MyDict
 {
-    partial class Form1
+    partial class frmMain
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.btnSearch = new System.Windows.Forms.Button();
             this.wb = new System.Windows.Forms.WebBrowser();
             this.txtSearch = new System.Windows.Forms.TextBox();
@@ -36,6 +37,7 @@
             this.lbxBook = new System.Windows.Forms.ListBox();
             this.btnFavorite = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSavePhrase = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -120,11 +122,22 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // Form1
+            // btnSavePhrase
+            // 
+            this.btnSavePhrase.Location = new System.Drawing.Point(197, 10);
+            this.btnSavePhrase.Name = "btnSavePhrase";
+            this.btnSavePhrase.Size = new System.Drawing.Size(75, 46);
+            this.btnSavePhrase.TabIndex = 10;
+            this.btnSavePhrase.Text = "保存";
+            this.btnSavePhrase.UseVisualStyleBackColor = true;
+            this.btnSavePhrase.Click += new System.EventHandler(this.btnSavePhrase_Click);
+            // 
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 1037);
+            this.Controls.Add(this.btnSavePhrase);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.lbxBook);
             this.Controls.Add(this.chkAuto);
@@ -133,12 +146,13 @@
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.wb);
             this.Controls.Add(this.btnSearch);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
-            this.Activated += new System.EventHandler(this.Form1_Activated);
-            this.LocationChanged += new System.EventHandler(this.Form1_LocationChanged);
+            this.Text = "简易单词本";
+            this.Activated += new System.EventHandler(this.frmMain_Activated);
+            this.LocationChanged += new System.EventHandler(this.frmMain_LocationChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,6 +167,7 @@
         private System.Windows.Forms.ListBox lbxBook;
         private System.Windows.Forms.Button btnFavorite;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnSavePhrase;
     }
 }
 

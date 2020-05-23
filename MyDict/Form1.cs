@@ -8,37 +8,42 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace MyDict
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
         private static readonly string dbName = "xmldb.xml";
+        private static readonly string dictConfigName = "DictUrl";
+        private static readonly string isAutoCheckConfigName = "IsAutoCheck";
         private string dictUrl;
         private bool isAutoCheck;
         private List<PhraseBook> listPhrase;
-        public Form1()
+        private IPhraseDb phraseDb;
+        public frmMain()
         {
             InitializeComponent();
-            dictUrl = ConfigurationManager.AppSettings["dictUrl"];
-            isAutoCheck = chkAuto.Checked;
-            listPhrase = LoadPhrases();
+            phraseDb = new XmlPhraseDb(dbName);
+            dictUrl = ConfigurationManager.AppSettings[dictConfigName];
+            isAutoCheck = bool.Parse(ConfigurationManager.AppSettings[isAutoCheckConfigName]);
+            chkAuto.Checked = isAutoCheck;
+            listPhrase = phraseDb.LoadPhrasesFromDb();
             BindListBox();
+            txtSearch.GotFocus += txtSelectAll;
             txtSearch.Focus();
         }
-        private void Form1_Activated(object sender, EventArgs e)
+        private void txtSelectAll(object sender, EventArgs e)
+        {
+            txtSearch.SelectAll();
+        }
+        private void frmMain_Activated(object sender, EventArgs e)
         {
             txtSearch.Focus();
         }
-        private void Form1_LocationChanged(object sender, EventArgs e)
-        {
-            txtSearch.Focus();
-        }
-        private void wb_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void frmMain_LocationChanged(object sender, EventArgs e)
         {
             txtSearch.Focus();
         }
@@ -59,6 +64,9 @@ namespace MyDict
         private void chkAuto_CheckedChanged(object sender, EventArgs e)
         {
             isAutoCheck = chkAuto.Checked;
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings[isAutoCheckConfigName].Value = isAutoCheck.ToString();
+            config.Save();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -81,6 +89,18 @@ namespace MyDict
                 Search(item.WordSourceName);
             }
         }
+        private void wb_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(2000);
+                this.Invoke(new Action(() => txtSearch.Focus()));
+            });
+        }
+        private void btnSavePhrase_Click(object sender, EventArgs e)
+        {
+            phraseDb.SavePhrasesToDb(listPhrase);
+        }
         #region Methods
         private void Search(string txt = null)
         {
@@ -92,21 +112,8 @@ namespace MyDict
             {
                 SavePhrase();
             }
-            wb.Url = new Uri(dictUrl + txt);
-        }
-        private List<PhraseBook> LoadPhrases()
-        {
-            if (!File.Exists(dbName))
-            {
-                return new List<PhraseBook>();
-            }
-            var xml = File.ReadAllText(dbName);
-            if (string.IsNullOrEmpty(xml))
-            {
-                return new List<PhraseBook>();
-            }
-            var listPhrase = Deserialize<List<PhraseBook>>(xml);
-            return listPhrase;
+            
+            wb.Navigate(dictUrl + txt);
         }
         private void SavePhrase()
         {
@@ -125,47 +132,7 @@ namespace MyDict
             lbxBook.DataSource = null;
             lbxBook.DataSource = listPhrase;
             lbxBook.DisplayMember = "WordSourceName";
-            var xml = Serialize(listPhrase);
-            File.WriteAllText(dbName, xml);
         }
-
-        public static string Serialize<T>(T model) where T : class
-        {
-            string xml;
-            using (var ms = new MemoryStream())
-            {
-                XmlSerializer xmlSer = new XmlSerializer(typeof(T));
-                xmlSer.Serialize(ms, model);
-                ms.Position = 0;
-                StreamReader sr = new StreamReader(ms);
-                xml = sr.ReadToEnd();
-            }
-            return xml;
-        }
-
-        public static T Deserialize<T>(string strXml) where T : class
-        {
-            try
-            {
-                object obj;
-                using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(strXml)))
-                {
-                    using (XmlReader xmlReader = XmlReader.Create(memoryStream))
-                    {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                        obj = xmlSerializer.Deserialize(xmlReader);
-                    }
-                }
-                return obj as T;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-
-
 
 
         #endregion
