@@ -38,6 +38,8 @@
             this.btnFavorite = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSavePhrase = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSearch
@@ -55,19 +57,19 @@
             this.wb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.wb.Location = new System.Drawing.Point(370, 66);
+            this.wb.Location = new System.Drawing.Point(257, 3);
             this.wb.MinimumSize = new System.Drawing.Size(20, 20);
             this.wb.Name = "wb";
-            this.wb.Size = new System.Drawing.Size(980, 964);
+            this.wb.Size = new System.Drawing.Size(1078, 947);
             this.wb.TabIndex = 3;
             this.wb.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wb_DocumentCompleted);
             // 
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtSearch.Location = new System.Drawing.Point(370, 12);
+            this.txtSearch.Location = new System.Drawing.Point(331, 12);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(348, 38);
+            this.txtSearch.Size = new System.Drawing.Size(387, 38);
             this.txtSearch.TabIndex = 4;
             this.txtSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearch_KeyPress);
             // 
@@ -94,12 +96,13 @@
             // 
             // lbxBook
             // 
+            this.lbxBook.Dock = System.Windows.Forms.DockStyle.Left;
             this.lbxBook.Font = new System.Drawing.Font("Times New Roman", 14F);
             this.lbxBook.FormattingEnabled = true;
             this.lbxBook.ItemHeight = 26;
-            this.lbxBook.Location = new System.Drawing.Point(12, 66);
+            this.lbxBook.Location = new System.Drawing.Point(0, 0);
             this.lbxBook.Name = "lbxBook";
-            this.lbxBook.Size = new System.Drawing.Size(352, 966);
+            this.lbxBook.Size = new System.Drawing.Size(251, 963);
             this.lbxBook.TabIndex = 8;
             this.lbxBook.DoubleClick += new System.EventHandler(this.lbxBook_DoubleClick);
             // 
@@ -124,7 +127,7 @@
             // 
             // btnSavePhrase
             // 
-            this.btnSavePhrase.Location = new System.Drawing.Point(197, 10);
+            this.btnSavePhrase.Location = new System.Drawing.Point(188, 10);
             this.btnSavePhrase.Name = "btnSavePhrase";
             this.btnSavePhrase.Size = new System.Drawing.Size(75, 46);
             this.btnSavePhrase.TabIndex = 10;
@@ -132,19 +135,30 @@
             this.btnSavePhrase.UseVisualStyleBackColor = true;
             this.btnSavePhrase.Click += new System.EventHandler(this.btnSavePhrase_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.lbxBook);
+            this.panel1.Controls.Add(this.wb);
+            this.panel1.Location = new System.Drawing.Point(12, 62);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1338, 963);
+            this.panel1.TabIndex = 11;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 1037);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSavePhrase);
             this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.lbxBook);
             this.Controls.Add(this.chkAuto);
             this.Controls.Add(this.btnFavorite);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.wb);
             this.Controls.Add(this.btnSearch);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
@@ -153,6 +167,7 @@
             this.Text = "简易单词本";
             this.Activated += new System.EventHandler(this.frmMain_Activated);
             this.LocationChanged += new System.EventHandler(this.frmMain_LocationChanged);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,6 +183,7 @@
         private System.Windows.Forms.Button btnFavorite;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSavePhrase;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
