@@ -37,7 +37,6 @@
             this.lbxBook = new System.Windows.Forms.ListBox();
             this.btnFavorite = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnSavePhrase = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +113,7 @@
             this.btnFavorite.TabIndex = 6;
             this.btnFavorite.Text = "生词本";
             this.btnFavorite.UseVisualStyleBackColor = true;
+            this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
             // 
             // btnDelete
             // 
@@ -124,16 +124,6 @@
             this.btnDelete.Text = "删除选中";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnSavePhrase
-            // 
-            this.btnSavePhrase.Location = new System.Drawing.Point(188, 10);
-            this.btnSavePhrase.Name = "btnSavePhrase";
-            this.btnSavePhrase.Size = new System.Drawing.Size(75, 46);
-            this.btnSavePhrase.TabIndex = 10;
-            this.btnSavePhrase.Text = "保存";
-            this.btnSavePhrase.UseVisualStyleBackColor = true;
-            this.btnSavePhrase.Click += new System.EventHandler(this.btnSavePhrase_Click);
             // 
             // panel1
             // 
@@ -153,7 +143,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 1037);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btnSavePhrase);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.chkAuto);
             this.Controls.Add(this.btnFavorite);
@@ -182,7 +171,6 @@
         private System.Windows.Forms.ListBox lbxBook;
         private System.Windows.Forms.Button btnFavorite;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnSavePhrase;
         private System.Windows.Forms.Panel panel1;
     }
 }

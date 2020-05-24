@@ -80,6 +80,7 @@ namespace SimpleDict
                 listPhrase.Remove(item);
                 BindListBox();
             }
+            phraseDb.SavePhrasesToDb(listPhrase);
         }
         private void lbxBook_DoubleClick(object sender, EventArgs e)
         {
@@ -102,7 +103,7 @@ namespace SimpleDict
             phraseDb.SavePhrasesToDb(listPhrase);
         }
         #region Methods
-        private void Search(string txt = null)
+        public void Search(string txt = null)
         {
             if (string.IsNullOrEmpty(txt))
             {
@@ -125,6 +126,7 @@ namespace SimpleDict
                     WordSourceName = txtSearch.Text.Trim()
                 });
                 BindListBox();
+                phraseDb.SavePhrasesToDb(listPhrase);
             }
         }
         private void BindListBox()
@@ -135,8 +137,13 @@ namespace SimpleDict
         }
 
 
+
         #endregion
 
-        
+        private void btnFavorite_Click(object sender, EventArgs e)
+        {
+            PhraseForm phraseForm = new PhraseForm(listPhrase,this);
+            phraseForm.Show();
+        }
     }
 }
