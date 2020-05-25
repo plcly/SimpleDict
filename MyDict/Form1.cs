@@ -16,9 +16,7 @@ namespace SimpleDict
 {
     public partial class frmMain : Form
     {
-        private static readonly string dbName = "xmldb.xml";
-        private static readonly string dictConfigName = "DictUrl";
-        private static readonly string isAutoCheckConfigName = "IsAutoCheck";
+        
         private string dictUrl;
         private bool isAutoCheck;
         private List<PhraseBook> listPhrase;
@@ -26,9 +24,9 @@ namespace SimpleDict
         public frmMain()
         {
             InitializeComponent();
-            phraseDb = new XmlPhraseDb(dbName);
-            dictUrl = ConfigurationManager.AppSettings[dictConfigName];
-            isAutoCheck = bool.Parse(ConfigurationManager.AppSettings[isAutoCheckConfigName]);
+            phraseDb = new XmlPhraseDb();
+            dictUrl = ConfigurationManager.AppSettings[Const.DictConfigName];
+            isAutoCheck = bool.Parse(ConfigurationManager.AppSettings[Const.IsAutoCheckConfigName]);
             chkAuto.Checked = isAutoCheck;
             listPhrase = phraseDb.LoadPhrasesFromDb();
             BindListBox();
@@ -65,7 +63,7 @@ namespace SimpleDict
         {
             isAutoCheck = chkAuto.Checked;
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            config.AppSettings.Settings[isAutoCheckConfigName].Value = isAutoCheck.ToString();
+            config.AppSettings.Settings[Const.IsAutoCheckConfigName].Value = isAutoCheck.ToString();
             config.Save();
         }
         private void btnSave_Click(object sender, EventArgs e)
@@ -89,14 +87,6 @@ namespace SimpleDict
             {
                 Search(item.WordSourceName);
             }
-        }
-        private void wb_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            Task.Run(() =>
-            {
-                System.Threading.Thread.Sleep(2000);
-                this.Invoke(new Action(() => txtSearch.Focus()));
-            });
         }
         private void btnSavePhrase_Click(object sender, EventArgs e)
         {
@@ -142,8 +132,14 @@ namespace SimpleDict
 
         private void btnFavorite_Click(object sender, EventArgs e)
         {
+            phraseDb.SavePhrasesToDb(listPhrase);
             PhraseForm phraseForm = new PhraseForm(listPhrase,this);
             phraseForm.Show();
+        }
+
+        private void txtSearch_MouseMove(object sender, MouseEventArgs e)
+        {
+            txtSearch.Focus();
         }
     }
 }

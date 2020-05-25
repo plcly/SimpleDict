@@ -9,7 +9,11 @@ namespace SimpleDict
     interface IPhraseDb
     {
         List<PhraseBook> LoadPhrasesFromDb();
-        void SavePhrasesToDb(List<PhraseBook> phraseList);
+        List<PhraseBook> LoadReviewPhrasesFromDb();
+        List<PhraseBook> LoadDonePhrasesFromDb();
         void SaveSinglePhraseToDb(PhraseBook phraseList);
+        void SavePhrasesToDb(List<PhraseBook> phraseList);
+        void SaveReviewPhrasesToDb(List<PhraseBook> phraseList);
+        void SaveDonePhrasesToDb(List<PhraseBook> phraseList);
     }
 }

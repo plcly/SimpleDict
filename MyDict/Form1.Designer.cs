@@ -61,7 +61,6 @@
             this.wb.Name = "wb";
             this.wb.Size = new System.Drawing.Size(1078, 947);
             this.wb.TabIndex = 3;
-            this.wb.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wb_DocumentCompleted);
             // 
             // txtSearch
             // 
@@ -71,6 +70,7 @@
             this.txtSearch.Size = new System.Drawing.Size(387, 38);
             this.txtSearch.TabIndex = 4;
             this.txtSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearch_KeyPress);
+            this.txtSearch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtSearch_MouseMove);
             // 
             // btnSave
             // 
@@ -150,7 +150,6 @@
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnSearch);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "简易单词本";

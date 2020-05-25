@@ -33,6 +33,10 @@
             this.btnPre = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnShowInMain = new System.Windows.Forms.Button();
+            this.btnAddReview = new System.Windows.Forms.Button();
+            this.btnDone = new System.Windows.Forms.Button();
+            this.btnOpenReview = new System.Windows.Forms.Button();
+            this.btnPhrase = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblPhrase
@@ -76,11 +80,55 @@
             this.btnShowInMain.UseVisualStyleBackColor = true;
             this.btnShowInMain.Click += new System.EventHandler(this.btnShowInMain_Click);
             // 
+            // btnAddReview
+            // 
+            this.btnAddReview.Location = new System.Drawing.Point(12, 35);
+            this.btnAddReview.Name = "btnAddReview";
+            this.btnAddReview.Size = new System.Drawing.Size(104, 57);
+            this.btnAddReview.TabIndex = 4;
+            this.btnAddReview.Text = "添加到复习";
+            this.btnAddReview.UseVisualStyleBackColor = true;
+            this.btnAddReview.Click += new System.EventHandler(this.btnAddReview_Click);
+            // 
+            // btnDone
+            // 
+            this.btnDone.Location = new System.Drawing.Point(12, 205);
+            this.btnDone.Name = "btnDone";
+            this.btnDone.Size = new System.Drawing.Size(104, 57);
+            this.btnDone.TabIndex = 5;
+            this.btnDone.Text = "已掌握";
+            this.btnDone.UseVisualStyleBackColor = true;
+            this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
+            // 
+            // btnOpenReview
+            // 
+            this.btnOpenReview.Location = new System.Drawing.Point(12, 120);
+            this.btnOpenReview.Name = "btnOpenReview";
+            this.btnOpenReview.Size = new System.Drawing.Size(104, 57);
+            this.btnOpenReview.TabIndex = 6;
+            this.btnOpenReview.Text = "打开复习";
+            this.btnOpenReview.UseVisualStyleBackColor = true;
+            this.btnOpenReview.Click += new System.EventHandler(this.btnOpenReview_Click);
+            // 
+            // btnPhrase
+            // 
+            this.btnPhrase.Location = new System.Drawing.Point(12, 290);
+            this.btnPhrase.Name = "btnPhrase";
+            this.btnPhrase.Size = new System.Drawing.Size(104, 57);
+            this.btnPhrase.TabIndex = 7;
+            this.btnPhrase.Text = "打开生词";
+            this.btnPhrase.UseVisualStyleBackColor = true;
+            this.btnPhrase.Click += new System.EventHandler(this.btnPhrase_Click);
+            // 
             // PhraseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPhrase);
+            this.Controls.Add(this.btnOpenReview);
+            this.Controls.Add(this.btnDone);
+            this.Controls.Add(this.btnAddReview);
             this.Controls.Add(this.btnShowInMain);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPre);
@@ -100,5 +148,9 @@
         private System.Windows.Forms.Button btnPre;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnShowInMain;
+        private System.Windows.Forms.Button btnAddReview;
+        private System.Windows.Forms.Button btnDone;
+        private System.Windows.Forms.Button btnOpenReview;
+        private System.Windows.Forms.Button btnPhrase;
     }
 }
