@@ -16,11 +16,14 @@ namespace SimpleDict
 {
     public partial class frmMain : Form
     {
-        
+
         private string dictUrl;
         private bool isAutoCheck;
         private List<PhraseBook> listPhrase;
+        private List<PhraseBook> listReviewPhraseBook;
+        private List<PhraseBook> listDonePhraseBook;
         private IPhraseDb phraseDb;
+        private PhraseStatus phraseStatus;
         public frmMain()
         {
             InitializeComponent();
@@ -29,7 +32,10 @@ namespace SimpleDict
             isAutoCheck = bool.Parse(ConfigurationManager.AppSettings[Const.IsAutoCheckConfigName]);
             chkAuto.Checked = isAutoCheck;
             listPhrase = phraseDb.LoadPhrasesFromDb();
-            BindListBox();
+            listReviewPhraseBook = phraseDb.LoadReviewPhrasesFromDb();
+            listDonePhraseBook = phraseDb.LoadDonePhrasesFromDb();
+            phraseStatus = PhraseStatus.Phrase;
+            BindListBoxes();
             txtSearch.GotFocus += txtSelectAll;
             txtSearch.Focus();
         }
@@ -72,25 +78,75 @@ namespace SimpleDict
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var item = lbxBook.SelectedItem as PhraseBook;
+            var listBox = GetListBox();
+            var item = listBox.SelectedItem as PhraseBook;
             if (item != null)
             {
-                listPhrase.Remove(item);
-                BindListBox();
+                switch (phraseStatus)
+                {
+                    case PhraseStatus.Phrase:
+                        listPhrase.Remove(item);
+                        break;
+                    case PhraseStatus.Review:
+                        listReviewPhraseBook.Remove(item);
+                        break;
+                    case PhraseStatus.Done:
+                        listDonePhraseBook.Remove(item);
+                        break;
+                    default:
+                        break;
+                }
+                BindListBoxes();
+                SavePhraseByeState();
             }
-            phraseDb.SavePhrasesToDb(listPhrase);
         }
+
+        private void SavePhraseByeState()
+        {
+            switch (phraseStatus)
+            {
+                case PhraseStatus.Phrase:
+                    phraseDb.SavePhrasesToDb(listPhrase);
+                    break;
+                case PhraseStatus.Review:
+                    phraseDb.SaveReviewPhrasesToDb(listReviewPhraseBook);
+                    break;
+                case PhraseStatus.Done:
+                    phraseDb.SaveDonePhrasesToDb(listDonePhraseBook);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void SavePhraseAll()
+        {
+            phraseDb.SavePhrasesToDb(listPhrase);
+            phraseDb.SaveReviewPhrasesToDb(listReviewPhraseBook);
+            phraseDb.SaveDonePhrasesToDb(listDonePhraseBook);
+        }
+        private ListBox GetListBox()
+        {
+            switch (phraseStatus)
+            {
+                case PhraseStatus.Phrase:
+                    return lbxBook;
+                case PhraseStatus.Review:
+                    return lbxReview;
+                case PhraseStatus.Done:
+                    return lbxDone;
+                default:
+                    return lbxBook;
+            }
+        }
+
         private void lbxBook_DoubleClick(object sender, EventArgs e)
         {
-            var item = lbxBook.SelectedItem as PhraseBook;
+            var listBox = (ListBox)sender;
+            var item = listBox.SelectedItem as PhraseBook;
             if (item != null)
             {
                 Search(item.WordSourceName);
             }
-        }
-        private void btnSavePhrase_Click(object sender, EventArgs e)
-        {
-            phraseDb.SavePhrasesToDb(listPhrase);
         }
         #region Methods
         public void Search(string txt = null)
@@ -99,11 +155,12 @@ namespace SimpleDict
             {
                 txt = txtSearch.Text;
             }
+            txtSearch.Text = txt;
             if (isAutoCheck)
             {
                 SavePhrase();
             }
-            
+
             wb.Navigate(dictUrl + txt);
         }
         private void SavePhrase()
@@ -115,15 +172,23 @@ namespace SimpleDict
                 {
                     WordSourceName = txtSearch.Text.Trim()
                 });
-                BindListBox();
+                BindListBoxes();
                 phraseDb.SavePhrasesToDb(listPhrase);
             }
         }
-        private void BindListBox()
+        private void BindListBoxes()
         {
             lbxBook.DataSource = null;
             lbxBook.DataSource = listPhrase;
             lbxBook.DisplayMember = "WordSourceName";
+
+            lbxReview.DataSource = null;
+            lbxReview.DataSource = listReviewPhraseBook;
+            lbxReview.DisplayMember = "WordSourceName";
+
+            lbxDone.DataSource = null;
+            lbxDone.DataSource = listDonePhraseBook;
+            lbxDone.DisplayMember = "WordSourceName";
         }
 
 
@@ -133,13 +198,89 @@ namespace SimpleDict
         private void btnFavorite_Click(object sender, EventArgs e)
         {
             phraseDb.SavePhrasesToDb(listPhrase);
-            PhraseForm phraseForm = new PhraseForm(listPhrase,this);
+            PhraseForm phraseForm = new PhraseForm(listPhrase, this);
             phraseForm.Show();
         }
 
         private void txtSearch_MouseMove(object sender, MouseEventArgs e)
         {
             txtSearch.Focus();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            Search();
+
+        }
+
+        private void tcLeft_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tcLeft.SelectedTab.Name)
+            {
+                case "tpPhrase":
+                    phraseStatus = PhraseStatus.Phrase;
+                    break;
+                case "tpReview":
+                    phraseStatus = PhraseStatus.Review;
+                    break;
+                case "tpDone":
+                    phraseStatus = PhraseStatus.Done;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void btnDone_Click(object sender, EventArgs e)
+        {
+            var listBox = GetListBox();
+            var item = listBox.SelectedItem as PhraseBook;
+            if (item != null)
+            {
+                switch (phraseStatus)
+                {
+                    case PhraseStatus.Phrase:
+                        listPhrase.Remove(item);
+                        break;
+                    case PhraseStatus.Review:
+                        listReviewPhraseBook.Remove(item);
+                        break;
+                    default:
+                        return;
+                }
+                if (!listDonePhraseBook.Any(p => p.WordSourceName == item.WordSourceName))
+                {
+                    listDonePhraseBook.Add(item);
+                }
+                SavePhraseAll();
+                BindListBoxes();
+            }
+        }
+
+        private void btnAddReview_Click(object sender, EventArgs e)
+        {
+            var listBox = GetListBox();
+            var item = listBox.SelectedItem as PhraseBook;
+            if (item != null)
+            {
+                switch (phraseStatus)
+                {
+                    case PhraseStatus.Phrase:
+                        listPhrase.Remove(item);
+                        break;
+                    case PhraseStatus.Done:
+                        listDonePhraseBook.Remove(item);
+                        break;
+                    default:
+                        return;
+                }
+                if (!listReviewPhraseBook.Any(p => p.WordSourceName == item.WordSourceName))
+                {
+                    listReviewPhraseBook.Add(item);
+                }
+                SavePhraseAll();
+                BindListBoxes();
+            }
         }
     }
 }

@@ -125,6 +125,7 @@ namespace SimpleDict
             if (!listReviewPhraseBook.Any(p => p.WordSourceName == lblPhrase.Text))
             {
                 listReviewPhraseBook.Add(new PhraseBook { WordSourceName = lblPhrase.Text });
+                phraseDb.SaveReviewPhrasesToDb(listReviewPhraseBook);
             }
         }
 
